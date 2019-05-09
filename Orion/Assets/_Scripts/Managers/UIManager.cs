@@ -3,76 +3,123 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// UI manager
+/// UI Manager
 /// </summary>
 
 public class UIManager : MonoBehaviour
 {
     // <-- UIs --> //
-    [Header("State UIs")]
-    public GameObject None;
+    [Header("PlayState UIs")]
+    public GameObject InGame;
+    public GameObject Paused;
+
+    [Header("GameState UIs")]
     public GameObject Stealth;
     public GameObject Seeker;
     public GameObject Death;
-    public GameObject Pause;
 
     // <-- Management --> //
-    private GameObject _loadedUI;
-    private GameStates _loadedState;
+    private GameObject _loadedGameStateUI;
+    private GameStates _loadedGameState;
+    private GameObject _loadedPlayStateUI;
+    private PlayStates _loadedPlayState;
 
     // <-- Misc --> //
-    public Transform UIHolder;
+    [Header("Canvas")]
+    public Transform BaseCanvas;
 
     // <-- Main Stack --> // 
     public void UpdateUI()
     {
-        if (_loadedState != State.state)
+        if (_loadedGameState != State.gameState)
         {
-            if (_loadedUI != null)
-                DestroyUI();
+            DestroyGameStateUI();
+            CreateGameStateUI();
+        }
 
-            CreateUI();
+        if (_loadedPlayState != State.playState) {
+            DestroyPlayStateUI();
+            CreatePlayStateUI();
         }
     }
 
-    private void CreateUI()
+    // <-- GameState Functions --> //
+    // TODO: Combine with PlayState functions
+
+    private void CreateGameStateUI()
     {
-        _loadedState = State.state;
-        switch (State.state)
+        _loadedGameState = State.gameState;
+        switch (State.gameState)
         {
             case GameStates.NONE:
-                _loadedUI = None;
-                break;
+                _loadedGameStateUI = null;
+                return;
             case GameStates.Stealth:
-                _loadedUI = Stealth;
+                _loadedGameStateUI = Stealth;
                 break;
             case GameStates.Seeker:
-                _loadedUI = Seeker;
+                _loadedGameStateUI = Seeker;
                 break;
             case GameStates.Death:
-                _loadedUI = Death;
-                break;
-            case GameStates.Pause:
-                _loadedUI = Pause;
+                _loadedGameStateUI = Death;
                 break;
         }
 
         // Create UI
-        _loadedUI = Instantiate(_loadedUI, UIHolder, false);
+        _loadedGameStateUI = Instantiate(_loadedGameStateUI, BaseCanvas, false);
   
     }
 
-    private void DestroyUI()
+    private void DestroyGameStateUI()
     {
         // TEMP: Change to animations
-        Destroy(_loadedUI);
-        _loadedUI = null;
+        if (_loadedGameStateUI == null) return;
+        Destroy(_loadedGameStateUI);
+        _loadedGameStateUI = null;
     }
 
-    // <-- Getters/Setters --> //
-    public GameObject GetUI()
+        // <-- Getters/Setters --> //
+        public GameObject GetGameStateUI()
+        {
+            return _loadedGameStateUI;
+        }
+
+    // <-- PlayState Functions --> //
+    private void CreatePlayStateUI()
     {
-        return _loadedUI;
+        _loadedPlayState = State.playState;
+        switch (State.playState)
+        {
+            case PlayStates.NONE:
+                _loadedPlayStateUI = null;
+                return;
+            case PlayStates.InGame:
+                _loadedPlayStateUI = InGame;
+                break;
+            case PlayStates.Paused:
+                _loadedPlayStateUI = Paused;
+                break;
+        }
+
+        Debug.Log(_loadedPlayStateUI.name);
+
+        // Create UI
+        _loadedPlayStateUI = Instantiate(_loadedPlayStateUI, BaseCanvas, false);
+  
     }
+
+    private void DestroyPlayStateUI()
+    {
+        // TEMP: Change to animations
+        if (_loadedPlayStateUI == null) return;
+        Destroy(_loadedPlayStateUI);
+        _loadedPlayStateUI = null;
+    }
+
+        // <-- Getters/Setters --> //
+        public GameObject GetPlayStateUI()
+        {
+            return _loadedPlayStateUI;
+        }
 
 }

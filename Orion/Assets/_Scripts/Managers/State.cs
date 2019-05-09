@@ -5,7 +5,8 @@
 
 public static class State
 {
-    public static GameStates state;
+    public static GameStates gameState;
+    public static PlayStates playState;
 }
 
 public enum GameStates
@@ -14,5 +15,11 @@ public enum GameStates
     Stealth,
     Seeker,
     Death,
-    Pause
+}
+
+public enum PlayStates
+{
+    NONE,
+    InGame,
+    Paused
 }

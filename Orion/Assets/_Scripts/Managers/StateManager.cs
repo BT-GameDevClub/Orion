@@ -11,8 +11,25 @@ public class StateManager : MonoBehaviour
     // <-- Managers --> //
     public UIManager UI;
 
-    public void ChangeState(GameStates _state) {
-        State.state = _state;
+    // TEMPORARY
+    public PlayStates playState;
+    public GameStates gameState;
+
+    public void ChangeGameState(GameStates _state) {
+        State.gameState = _state;
         UI.UpdateUI();
     }
+    public void ChangePlayState(PlayStates _state)
+    {
+        State.playState = _state;
+        UI.UpdateUI();
+    }
+
+    // TEMP
+    public void Update() {
+        ChangeGameState(gameState);
+        ChangePlayState(playState);
+    }
+
+
 }
