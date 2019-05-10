@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class GameplayTrigger : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public ScriptedDoor door;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    void OnTriggerEnter() {
+        door.Open();
     }
 }
