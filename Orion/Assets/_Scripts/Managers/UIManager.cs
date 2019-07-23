@@ -112,8 +112,8 @@ public class UIManager : MonoBehaviour
     {
         // TEMP: Change to animations
         if (_loadedPlayStateUI == null) return;
-        Destroy(_loadedPlayStateUI);
-        _loadedPlayStateUI = null;
+        _loadedPlayStateUI.GetComponent<Animator>().Play("Unload");
+        //Destroy(_loadedPlayStateUI);
     }
 
         // <-- Getters/Setters --> //

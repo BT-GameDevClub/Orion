@@ -6,7 +6,8 @@ public class GameplayTrigger : MonoBehaviour
 {
     public ScriptedDoor door;
 
-    void OnTriggerEnter() {
-        door.Open();
+    private void OnTriggerEnter()
+    {
+        door.ToggleDoor();
     }
 }
